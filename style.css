@@ -33,7 +33,7 @@ h1 {
 
 label,
 p,
-input {
+input[type="number"] {
     color: rgba(4, 4, 113, 0.822);
     font-weight: bold;
     text-shadow: 2px 2px 2px rgba(0, 0, 0, 0.118);

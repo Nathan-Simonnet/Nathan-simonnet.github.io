@@ -7,10 +7,6 @@ const main = document.querySelector('main');
 const btnGo = document.getElementById('go-btn');
 const btnContainer = document.getElementById('btn-container');
 
-// window.addEventListener('mousemove', (e) => {
-//     console.log(e.layerX, e.layerY)
-// });
-
 let timerSetings = timerInput.value;
 
 timerInput.addEventListener('input', (input) => {
@@ -81,7 +77,7 @@ const bubblesMaker = function () {
 
         const pop = () => {
             const audio = new Audio();
-            audio.src = "./bubble docs/pop.m4a";
+            audio.src = "./bubble-docs/pop.m4a";
             audio.play();
         };
 
@@ -132,7 +128,7 @@ const endGame = function () {
 
     const victory = () => {
         const audio = new Audio();
-        audio.src = "./bubble docs/Party-horn.mp3";
+        audio.src = "./bubble-docs/Party-horn.mp3";
         audio.play();
     };
 
@@ -175,7 +171,12 @@ const startGame = function () {
 
 
 btnGo.addEventListener('click', (e) => {
-    startGame();
+
+    if (timerSetings > 60 || timerSetings < 10) {
+        alert("Between 10 and 60 seconds!");
+    } else {
+        startGame();
+    }
 });
 
 
