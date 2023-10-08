@@ -241,6 +241,8 @@ figure {
     animation: bubbleAnim 6s linear forwards;
 }
 
+.goldenBubble {}
+
 @keyframes bubbleAnim {
     from {
         filter: hue-rotate(0deg);

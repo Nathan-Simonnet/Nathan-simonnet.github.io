@@ -8,7 +8,7 @@ const btnGo = document.getElementById('go-btn');
 const btnContainer = document.getElementById('btn-container');
 
 let timerSetings = timerInput.value;
-
+let randoSettings = "";
 timerInput.addEventListener('input', (input) => {
     timerSetings = input.target.value;
 });
@@ -61,7 +61,6 @@ function party() {
 
 };
 
-
 const bubblesMaker = function () {
     const bubble = document.createElement("span");
     document.body.appendChild(bubble);
@@ -113,6 +112,54 @@ const bubbleAnim = function (bubble) {
 
 }
 
+const goldendBubblesMaker = function () {
+    const bubble = document.createElement("span");
+    document.body.appendChild(bubble);
+    bubble.classList.add('bubbles');
+
+    bubbleAnim(bubble);
+
+    setTimeout(() => {
+        bubble.remove();
+    }, 6000);
+
+    bubble.addEventListener('click', (click) => {
+
+        const pop = () => {
+            const audio = new Audio();
+            audio.src = "./bubble-docs/pop.m4a";
+            audio.play();
+        };
+
+        bubble.remove();
+        pop();
+        counter += 10;
+
+        let layerX = click.clientX;
+        let layerY = click.clientY;
+
+        for (let i = 0; i < 10; i++) {
+            createParticle(layerX, layerY);
+        }
+
+        h1.textContent = counter;
+    });
+}
+
+const goldendBubbleAnim = function (bubble) {
+
+    const randomHeightWidth = (Math.floor(Math.random() * 200) + 100);
+    const randomHeighFromleft = (Math.floor(Math.random() * 100));
+    const randomHeighToleft = (Math.floor(Math.random() * 100));
+    const plusMinus = Math.random() > 0.5 ? randomHeighToleft : -randomHeighToleft;
+
+    bubble.style.width = randomHeightWidth + "px";
+    bubble.style.height = randomHeightWidth + "px";
+
+    bubble.style.setProperty('--leftFromAnim', randomHeighFromleft + "%")
+    bubble.style.setProperty('--leftToAnim', plusMinus + "%")
+
+}
 
 const endGame = function () {
 
@@ -168,7 +215,6 @@ const startGame = function () {
 
     loop();
 }
-
 
 btnGo.addEventListener('click', (e) => {
 
