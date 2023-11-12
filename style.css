@@ -53,7 +53,6 @@ input[type="number"] {
     }
 }
 
-
 @keyframes btnAnim {
     0% {
         background: linear-gradient(rgba(0, 0, 255, 0.543) 5%, transparent 5%, transparent 100%);
