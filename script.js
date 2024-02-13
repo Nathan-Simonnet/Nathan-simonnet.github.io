@@ -16,13 +16,12 @@ timerInput.addEventListener('input', (input) => {
 let counter = "";
 let endGameTrigger = "";
 
-function createParticle(leftP, topP) {
+// Bubbles explosion particle
+const createParticle = (leftP, topP) => {
     const particle = document.createElement("div");
     particle.classList.add('particle');
     document.body.appendChild(particle);
 
-    // particle.style.left = left + "px";
-    // particle.style.top = top + "px";
     particle.style.left = leftP + "px";
     particle.style.top = topP + "px";
 
@@ -37,7 +36,8 @@ function createParticle(leftP, topP) {
     });
 };
 
-function party() {
+// Bubble explosion at the end
+const party = () => {
     const confettis = document.createElement("div");
     confettis.classList.add('confettis');
     document.body.appendChild(confettis);
@@ -45,7 +45,7 @@ function party() {
     confettis.style.left = "50%";
     confettis.style.top = "50%";
 
-    const randomX = Math.random() * 200 - 100;
+    const randomX = Math.random() * 200;
     const randomPlusMinus = Math.random() > 0.5 ? randomX : -randomX
     const randomY = Math.random() * 600 - 100;
     const randomColor = Math.floor(Math.random() * 250);
@@ -61,6 +61,7 @@ function party() {
 
 };
 
+// Create bubble, will be call later into a loop of 200ms
 const bubblesMaker = function () {
     const bubble = document.createElement("span");
     document.body.appendChild(bubble);
@@ -80,21 +81,22 @@ const bubblesMaker = function () {
             audio.play();
         };
 
-        bubble.remove();
         pop();
+        bubble.remove();
         counter++;
 
         let layerX = click.clientX;
         let layerY = click.clientY;
 
-        for (let i = 0; i < 10; i++) {
+        //Quantity of particles 
+        for (let i = 0; i < 20; i++) {
             createParticle(layerX, layerY);
         }
 
         h1.textContent = counter;
     });
 }
-
+// Random direction, color, height, width
 const bubbleAnim = function (bubble) {
 
     const randomHeightWidth = (Math.floor(Math.random() * 200) + 100);
@@ -112,55 +114,57 @@ const bubbleAnim = function (bubble) {
 
 }
 
-const goldendBubblesMaker = function () {
-    const bubble = document.createElement("span");
-    document.body.appendChild(bubble);
-    bubble.classList.add('bubbles');
+// TODO!
+// const goldendBubblesMaker = function () {
+//     const bubble = document.createElement("span");
+//     document.body.appendChild(bubble);
+//     bubble.classList.add('bubbles');
 
-    bubbleAnim(bubble);
+//     bubbleAnim(bubble);
 
-    setTimeout(() => {
-        bubble.remove();
-    }, 6000);
+//     setTimeout(() => {
+//         bubble.remove();
+//     }, 6000);
 
-    bubble.addEventListener('click', (click) => {
+//     bubble.addEventListener('click', (click) => {
 
-        const pop = () => {
-            const audio = new Audio();
-            audio.src = "./bubble-docs/pop.m4a";
-            audio.play();
-        };
+//         const pop = () => {
+//             const audio = new Audio();
+//             audio.src = "./bubble-docs/pop.m4a";
+//             audio.play();
+//         };
 
-        bubble.remove();
-        pop();
-        counter += 10;
+//         bubble.remove();
+//         pop();
+//         counter += 10;
 
-        let layerX = click.clientX;
-        let layerY = click.clientY;
+//         let layerX = click.clientX;
+//         let layerY = click.clientY;
 
-        for (let i = 0; i < 10; i++) {
-            createParticle(layerX, layerY);
-        }
+//         for (let i = 0; i < 10; i++) {
+//             createParticle(layerX, layerY);
+//         }
 
-        h1.textContent = counter;
-    });
-}
+//         h1.textContent = counter;
+//     });
+// }
 
-const goldendBubbleAnim = function (bubble) {
+// const goldendBubbleAnim = function (bubble) {
 
-    const randomHeightWidth = (Math.floor(Math.random() * 200) + 100);
-    const randomHeighFromleft = (Math.floor(Math.random() * 100));
-    const randomHeighToleft = (Math.floor(Math.random() * 100));
-    const plusMinus = Math.random() > 0.5 ? randomHeighToleft : -randomHeighToleft;
+//     const randomHeightWidth = (Math.floor(Math.random() * 200) + 100);
+//     const randomHeighFromleft = (Math.floor(Math.random() * 100));
+//     const randomHeighToleft = (Math.floor(Math.random() * 100));
+//     const plusMinus = Math.random() > 0.5 ? randomHeighToleft : -randomHeighToleft;
 
-    bubble.style.width = randomHeightWidth + "px";
-    bubble.style.height = randomHeightWidth + "px";
+//     bubble.style.width = randomHeightWidth + "px";
+//     bubble.style.height = randomHeightWidth + "px";
 
-    bubble.style.setProperty('--leftFromAnim', randomHeighFromleft + "%")
-    bubble.style.setProperty('--leftToAnim', plusMinus + "%")
+//     bubble.style.setProperty('--leftFromAnim', randomHeighFromleft + "%")
+//     bubble.style.setProperty('--leftToAnim', plusMinus + "%")
 
-}
+// }
 
+// Triggered at the end of the timer
 const endGame = function () {
 
     const bubblesClass = document.querySelectorAll('.bubbles');
@@ -172,16 +176,17 @@ const endGame = function () {
     btnContainer.style.display = "flex";
     figure.style.display = "flex";
 
+    // easter egg coming soon... coming
+    // const victory = () => {
+    //     const audio = new Audio();
+    //     audio.src = "./bubble-docs/Party-horn.mp3";
+    //     audio.play();
+    // };
 
-    const victory = () => {
-        const audio = new Audio();
-        audio.src = "./bubble-docs/Party-horn.mp3";
-        audio.play();
-    };
+    // victory();
 
-    victory();
-
-    for (let i = 0; i < 40; i++) {
+    // Quantity of particles at the end
+    for (let i = 0; i < 80; i++) {
         party()
     }
 }
@@ -201,7 +206,7 @@ const startGame = function () {
         endGameTrigger = false;
     }, timerSetings * 1000)
 
-    const loop = function () {
+    const loop = () => {
 
         if (endGameTrigger == true) {
             setTimeout(() => {
@@ -216,7 +221,7 @@ const startGame = function () {
     loop();
 }
 
-btnGo.addEventListener('click', (e) => {
+btnGo.addEventListener('click', () => {
 
     if (timerSetings > 60 || timerSetings < 10) {
         alert("Between 10 and 60 seconds!");
