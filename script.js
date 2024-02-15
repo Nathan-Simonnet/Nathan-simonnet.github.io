@@ -1,3 +1,12 @@
+const bestScore = document.getElementById('best-score')
+const bestSeconds = document.getElementById('best-seconds')
+
+if (window.localStorage.previousBestScore && window.localStorage.previousBestSeconds) {
+    bestScore.textContent = window.localStorage.previousBestScore;
+    bestSeconds.textContent = window.localStorage.previousBestSeconds;
+    console.log(window.localStorage.previousBestScore);
+}
+
 // New message every time, took from this json
 let pepTalk;
 fetch('pep-talk.json')
@@ -29,8 +38,6 @@ document.getElementById('timer-plus').addEventListener('click', () => {
     }
 });
 
-
-let endGameTrigger;
 // Bubbles explosion particle
 const createParticle = (leftP, topP) => {
     const particle = document.createElement("div");
@@ -194,11 +201,19 @@ const endGame = function () {
     });
 
     document.querySelectorAll('.to-hide').forEach((element) => {
+        document.querySelector('label').textContent = "try again!";
+        element.classList.remove('hidden')
+    });
+
+    if (bestScore.textContent < counter) {
+        bestScore.textContent = counter;
+        bestSeconds.textContent = timerSetings;
+        window.localStorage.previousBestScore = counter;
+        window.localStorage.previousBestSeconds = timerSetings;
+
         const randomIndex = Math.floor(Math.random() * pepTalk.length)
         document.querySelector('label').textContent = pepTalk[randomIndex];
-        element.classList.remove('hidden')
-
-    });
+    }
 
     // easter egg
     // const victory = () => {
@@ -216,6 +231,7 @@ const endGame = function () {
 }
 
 // Onclick button "go" event listener
+let endGameTrigger;
 let counter;
 const startGame = function () {
     document.querySelectorAll('.to-hide').forEach((element) => {
