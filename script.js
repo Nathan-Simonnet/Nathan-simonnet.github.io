@@ -1,21 +1,36 @@
-const header = document.querySelector('header');
-const h1 = document.querySelector('h1');
-const timerContainer = document.getElementById('timer-container');
-const timerInput = document.getElementById('timer-input');
-const figure = document.querySelector('figure');
-const main = document.querySelector('main');
-const btnGo = document.getElementById('go-btn');
-const btnContainer = document.getElementById('btn-container');
+// New message every time, took from this json
+let pepTalk;
+fetch('pep-talk.json')
+    .then((response) => response.json())
+    .then((data) => pepTalk = data.pep)
 
+// Timer Handler
+const timerInput = document.getElementById('timer-input');
 let timerSetings = timerInput.value;
-let randoSettings = "";
+timerInput.addEventListener('keydown', (e) => {
+    e.preventDefault();
+});
+
 timerInput.addEventListener('input', (input) => {
     timerSetings = input.target.value;
 });
 
-let counter = "";
-let endGameTrigger = "";
+document.getElementById('timer-minus').addEventListener('click', () => {
+    if (timerInput.value > 10) {
+        timerInput.value--;
+        timerSetings--;
+    }
+});
 
+document.getElementById('timer-plus').addEventListener('click', () => {
+    if (timerInput.value < 60) {
+        timerInput.value++;
+        timerSetings++
+    }
+});
+
+
+let endGameTrigger;
 // Bubbles explosion particle
 const createParticle = (leftP, topP) => {
     const particle = document.createElement("div");
@@ -62,6 +77,9 @@ const party = () => {
 };
 
 // Create bubble, will be call later into a loop of 200ms
+// And the event listener of those ones
+const main = document.querySelector('main');
+const h1 = document.querySelector('h1')
 const bubblesMaker = function () {
     const bubble = document.createElement("span");
     document.body.appendChild(bubble);
@@ -69,6 +87,7 @@ const bubblesMaker = function () {
 
     bubbleAnim(bubble);
 
+    // It goes out of screen, so it's not necessary to keep theme alive...
     setTimeout(() => {
         bubble.remove();
     }, 6000);
@@ -114,6 +133,7 @@ const bubbleAnim = function (bubble) {
 
 }
 
+// ------------------------------------------------------------
 // TODO!
 // const goldendBubblesMaker = function () {
 //     const bubble = document.createElement("span");
@@ -163,6 +183,7 @@ const bubbleAnim = function (bubble) {
 //     bubble.style.setProperty('--leftToAnim', plusMinus + "%")
 
 // }
+// ------------------------------------------------------------
 
 // Triggered at the end of the timer
 const endGame = function () {
@@ -172,11 +193,14 @@ const endGame = function () {
         bubble.remove();
     });
 
-    timerContainer.style.display = "flex";
-    btnContainer.style.display = "flex";
-    figure.style.display = "flex";
+    document.querySelectorAll('.to-hide').forEach((element) => {
+        const randomIndex = Math.floor(Math.random() * pepTalk.length)
+        document.querySelector('label').textContent = pepTalk[randomIndex];
+        element.classList.remove('hidden')
 
-    // easter egg coming soon... coming
+    });
+
+    // easter egg
     // const victory = () => {
     //     const audio = new Audio();
     //     audio.src = "./bubble-docs/Party-horn.mp3";
@@ -191,16 +215,16 @@ const endGame = function () {
     }
 }
 
+// Onclick button "go" event listener
+let counter;
 const startGame = function () {
+    document.querySelectorAll('.to-hide').forEach((element) => {
+        element.classList.add('hidden')
+    });
 
     counter = 0;
     endGameTrigger = true;
-
-    h1.style.fontSize = "4em";
-    h1.textContent = "0";
-    timerContainer.style.display = "none";
-    btnContainer.style.display = "none";
-    figure.style.display = "none"
+    h1.textContent = counter;
 
     setTimeout(() => {
         endGameTrigger = false;
@@ -221,7 +245,8 @@ const startGame = function () {
     loop();
 }
 
-btnGo.addEventListener('click', () => {
+// Trigger the beginning of the game
+document.getElementById('go-btn').addEventListener('click', () => {
 
     if (timerSetings > 60 || timerSetings < 10) {
         alert("Between 10 and 60 seconds!");
