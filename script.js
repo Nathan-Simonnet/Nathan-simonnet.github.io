@@ -1,10 +1,36 @@
+let smollBubbles;
+let mediumBubbles;
+let grandeBubbles;
+
+function handleResize() {
+    let screenWidth = window.innerWidth;
+
+    if (screenWidth < 768) {
+
+        smollBubbles = true;
+        mediumBubbles = false;
+        grandeBubbles = false;
+    } else if (screenWidth >= 768 && screenWidth < 1024) {
+        smollBubbles = false;
+        mediumBubbles = true;
+        grandeBubbles = false;
+    } else {
+        smollBubbles = false;
+        mediumBubbles = false;
+        grandeBubbles = true;
+    }
+}
+window.addEventListener('resize', handleResize);
+handleResize()
+
+// Score storing and rewstoring
+// ======================================================================
 const bestScore = document.getElementById('best-score')
 const bestSeconds = document.getElementById('best-seconds')
 
 if (window.localStorage.previousBestScore && window.localStorage.previousBestSeconds) {
     bestScore.textContent = window.localStorage.previousBestScore;
     bestSeconds.textContent = window.localStorage.previousBestSeconds;
-    console.log(window.localStorage.previousBestScore);
 }
 
 // New message every time, took from this json
@@ -14,6 +40,7 @@ fetch('pep-talk.json')
     .then((data) => pepTalk = data.pep)
 
 // Timer Handler
+// ======================================================
 const timerInput = document.getElementById('timer-input');
 let timerSetings = timerInput.value;
 timerInput.addEventListener('keydown', (e) => {
@@ -38,7 +65,29 @@ document.getElementById('timer-plus').addEventListener('click', () => {
     }
 });
 
+// Range speed Handler
+// =====================================================
+const range = document.getElementById('range-speed')
+const rangeInstructions = document.getElementById('range-instructions')
+let rangeSettings;
+// Default value
+rangeSettings = range.value;
+
+range.addEventListener('input', (e) => {
+    if (range.value == 1) {
+        rangeInstructions.textContent = "Slow"
+    } else if (range.value == 2) {
+        rangeInstructions.textContent = "Not that slow"
+    } else if (range.value == 3) {
+        rangeInstructions.textContent = "Quite fast"
+    } else {
+        rangeInstructions.textContent = "Sonic speed!!"
+    }
+    rangeSettings = range.value;
+});
+
 // Bubbles explosion particle
+// ============================================================
 const createParticle = (leftP, topP) => {
     const particle = document.createElement("div");
     particle.classList.add('particle');
@@ -59,6 +108,7 @@ const createParticle = (leftP, topP) => {
 };
 
 // Bubble explosion at the end
+// ============================================================
 const party = () => {
     const confettis = document.createElement("div");
     confettis.classList.add('confettis');
@@ -85,6 +135,7 @@ const party = () => {
 
 // Create bubble, will be call later into a loop of 200ms
 // And the event listener of those ones
+// ============================================================
 const main = document.querySelector('main');
 const h1 = document.querySelector('h1')
 const bubblesMaker = function () {
@@ -92,21 +143,42 @@ const bubblesMaker = function () {
     document.body.appendChild(bubble);
     bubble.classList.add('bubbles');
 
+    // Animation duration == bubbles speed
+    if (rangeSettings == 1) {
+        bubble.classList.add('slow');
+        // It goes out of screen, so it's not necessary to keep theme alive...
+        setTimeout(() => {
+            bubble.remove();
+        }, 9000);
+    } else if (rangeSettings == 2) {
+        bubble.classList.add('medium');
+        setTimeout(() => {
+            bubble.remove();
+        }, 6000);
+
+    } else if (rangeSettings == 3) {
+        bubble.classList.add('fast');
+        setTimeout(() => {
+            bubble.remove();
+        }, 5000);
+    } else {
+        bubble.classList.add('sonic');
+        setTimeout(() => {
+            bubble.remove();
+        }, 4000);
+    }
+
     bubbleAnim(bubble);
 
-    // It goes out of screen, so it's not necessary to keep theme alive...
-    setTimeout(() => {
-        bubble.remove();
-    }, 6000);
+    // Onlick
+    // ------------------------------------------
+    const pop = () => {
+        const audio = new Audio();
+        audio.src = "./bubble-docs/pop.m4a";
+        audio.play();
+    };
 
     bubble.addEventListener('click', (click) => {
-
-        const pop = () => {
-            const audio = new Audio();
-            audio.src = "./bubble-docs/pop.m4a";
-            audio.play();
-        };
-
         pop();
         bubble.remove();
         counter++;
@@ -123,9 +195,18 @@ const bubblesMaker = function () {
     });
 }
 // Random direction, color, height, width
+// ============================================================
 const bubbleAnim = function (bubble) {
 
-    const randomHeightWidth = (Math.floor(Math.random() * 200) + 100);
+    let randomHeightWidth;
+    if (smollBubbles) {
+        randomHeightWidth = (Math.floor(Math.random() * 100) + 50);
+    } else if (mediumBubbles) {
+        randomHeightWidth = (Math.floor(Math.random() * 150) + 100);
+    } else {
+        randomHeightWidth = (Math.floor(Math.random() * 200) + 100);
+    }
+
     const randomHeighFromleft = (Math.floor(Math.random() * 100));
     const randomHeighToleft = (Math.floor(Math.random() * 100));
     const randomHueRotate = Math.floor((Math.random() * 350) + 100)

@@ -31,6 +31,7 @@ body {
 
 }
 
+/* =====================================================*/
 #best-score-container {
     position: absolute;
     top: 24px;
@@ -38,6 +39,8 @@ body {
     font-size: 26px;
 }
 
+/* =====================================================*/
+/* Dsiplay flex call at the end of the page for the "mystic disparition" on start */
 header {
     width: 100%;
     padding: 12px;
@@ -65,6 +68,24 @@ header {
         justify-content: center;
         align-items: center;
     }
+
+    & .range-container {
+        margin: 12px 0;
+
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+
+        & label {
+            margin-bottom: 6px;
+            font-size: 26px;
+        }
+
+        & input[type="range"] {
+            margin-top: 6px;
+            width: 200px;
+        }
+    }
 }
 
 #timer-input {
@@ -78,6 +99,7 @@ header {
     border-radius: 12px;
 }
 
+/* Less repeat */
 label,
 #best-score-container,
 #timer-input {
@@ -86,6 +108,7 @@ label,
     text-shadow: var(--text-shadow);
 }
 
+/* I don't remember why this is out of the nest */
 .timer-settings {
     font-size: 40px;
     font-weight: bold;
@@ -93,6 +116,7 @@ label,
     cursor: pointer;
 }
 
+/* I cheated... look at the rotate and you'll understand */
 #timer-plus {
     display: flex;
     justify-content: center;
@@ -105,6 +129,8 @@ label,
     }
 }
 
+/* =====================================================*/
+/* shiny effect on the start button */
 @keyframes btnAnim {
     0% {
         background: linear-gradient(rgba(0, 0, 255, 0.543) 5%, transparent 5%, transparent 100%);
@@ -273,22 +299,8 @@ main {
 
 }
 
-.bubbles {
-    cursor: crosshair;
-
-    position: absolute;
-
-    border-radius: 50%;
-    background: green;
-    opacity: 0.5;
-    filter: hue-rotate(0deg);
-    transform: translate(-50%, -50%);
-
-    animation: bubbleAnim 6s linear forwards;
-}
-
-/* .goldenBubble {} */
-
+/* The heart of the app, the bubbles created in JS  */
+/* =====================================================*/
 @keyframes bubbleAnim {
     from {
         filter: hue-rotate(0deg);
@@ -300,6 +312,50 @@ main {
         filter: hue-rotate(var(--hueRotateAnim));
         bottom: 200%;
         left: var(--leftToAnim);
+    }
+}
+
+.bubbles {
+    cursor: crosshair;
+
+    position: absolute;
+
+    border-radius: 50%;
+    background: green;
+    opacity: 0.5;
+    filter: hue-rotate(0deg);
+    transform: translate(-50%, -50%);
+}
+
+.slow {
+    animation: bubbleAnim 9s linear forwards;
+}
+
+.medium {
+    animation: bubbleAnim 6s linear forwards;
+}
+
+.fast {
+    animation: bubbleAnim 5s linear forwards;
+}
+
+.sonic {
+    animation: bubbleAnim 4s linear forwards;
+}
+
+/* Coming maybe oine day */
+/* .goldenBubble {} */
+
+
+@keyframes particleAnimation {
+    0% {
+        transform: translate(0, 0) scale(1);
+        opacity: 0.8;
+    }
+
+    100% {
+        transform: translate(var(--x), var(--y)) scale(0);
+        opacity: 0;
     }
 }
 
@@ -325,36 +381,23 @@ main {
     transition: transform 0.5s ease-out, opacity 0.5s ease-out;
 }
 
-@keyframes particleAnimation {
-    0% {
-        transform: translate(0, 0) scale(1);
-        opacity: 0.8;
-    }
-
-    100% {
-        transform: translate(var(--x), var(--y)) scale(0);
-        opacity: 0;
-    }
-}
-
+/* ========================================== */
+/* This one annoyed , have a good day */
 @media screen and (max-width: 900px) {
-
-
     #best-score-container {
         top: calc(100% - 50px);
         right: 24px;
     }
 }
 
-
+/* =====================================================*/
+/* Reduce margins?... */
 @media screen and (max-width: 600px) {
 
     #best-score-container {
         top: calc(100% - 36px);
         font-size: 16px;
     }
-
-
 
     header * {
         transform: scale(0.8);
@@ -365,6 +408,8 @@ main {
     }
 }
 
+/* ========================================== */
+/* Hide instructions and start button onclick ,*/
 .to-hide {
     display: flex;
 }
