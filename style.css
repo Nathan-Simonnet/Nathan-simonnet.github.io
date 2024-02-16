@@ -337,7 +337,24 @@ main {
     }
 }
 
+@media screen and (max-width: 900px) {
+
+
+    #best-score-container {
+        top: calc(100% - 50px);
+        right: 24px;
+    }
+}
+
+
 @media screen and (max-width: 600px) {
+
+    #best-score-container {
+        top: calc(100% - 36px);
+        font-size: 16px;
+    }
+
+
 
     header * {
         transform: scale(0.8);
