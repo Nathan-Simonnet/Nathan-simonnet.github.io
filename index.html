@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang='en'>
+<html lang='fr'>
 
 <head>
     <meta charset='UTF-8'>
@@ -12,33 +12,24 @@
 </head>
 
 <body>
-    <div id="best-score-container">Best score: <span id="best-score">0</span> in <span id="best-seconds">0</span>s
+    <div id="best-score-container">Best score: <span id="best-score">0</span>
     </div>
     <header>
-        <h1>Ready to pop?</h1>
-        <div class="timer-instructions to-hide">
-            <label for="timer-input">Select a time between 10 and 60 seconds</label>
-        </div>
-        <div class="timer-container to-hide">
-            <span id="timer-minus" class="timer-settings">&#9866</span><input type="number" min="10" max="60" value="10"
-                id="timer-input">
-            <span id="timer-plus" class="timer-settings"><span>&#10005</span></span>
-        </div>
-        <div class="range-container to-hide"> <label for="range-speed" id="range-instructions">How fast do you
-                feel</label><input type="range" id="range-speed" step="1" value="2" min="1" max="4"></div>
+        <h1>Bubble popper</h1>
+        <div class="range-container to-hide"> <label for="range-speed" id="range-instructions">Quelle vitesse?</label><input type="range" id="range-speed" step="1" value="2" min="1" max="4"></div>
     </header>
     <main>
-
         <div class="btn-container to-hide">
             <button id="go-btn">GO!</button>
         </div>
         <figure class="to-hide">
             <img src="bubble-docs/bubbles.png" id="bubbles-img" loading="lazy" alt="bubbles">
         </figure>
-
+        
     </main>
 
-    <script src='script.js'></script>
+    <!-- <script src='script.js'></script> -->
+    <script src='index.min.js'></script>
 </body>
 
 </html>
