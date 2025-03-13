@@ -9,7 +9,6 @@ Bubble popper
 ![image](https://img.shields.io/badge/JavaScript-323330?style=for-the-badge&logo=javascript&logoColor=F7DF1E)
 
 ## How to use it
-+ Select between 10 and 60 seconds
 + Click GO
 + Pop them!
 + Select again
