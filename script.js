@@ -280,7 +280,7 @@ const startGame = function () {
 
     setTimeout(() => {
         endGameTrigger = false;
-    }, 3000)
+    }, 30000)
 
     setTimeout(() => {
         bubblesMaker(true);
